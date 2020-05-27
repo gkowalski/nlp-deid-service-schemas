@@ -105,6 +105,28 @@ paths:
           description: providers  added
         '400':
           description: 'invalid input, object invalid'
+
+  /patients:
+    post:
+      tags:
+        - developers
+      summary: Adds Patient List to system
+      operationId: addPatientList
+      description:
+        Added a list of Patients to the deidentification process
+      parameters:
+        - in: query
+          name: deid
+          description: list of patient names
+          required: false
+          schema:
+            type: string
+      responses:
+        '201':
+          description: patients added
+        '400':
+          description: 'invalid input, object invalid'
+
 components:
   schemas:
     DeidResponse:
@@ -127,26 +149,34 @@ components:
         - note
         - dateShift
       properties:
+        subjectId:
+          type: integer
         noteId:
           type: integer
           format: int32
           example: 1
         note:
           type: string
-          example: George Doe was seen for this procedure
+          example: William Doe was seen for this procedure
         daysOffset:
           type: integer
           format: int32
           example: -10
-        patient:
-          $ref: '#/components/schemas/Patient'
+        patientID:
+          type: integer
+          format: int32
+          example: 1234
     Patient:
       required:
         - LastName
+        - ID
       properties:
+        ID:
+          type: integer
+          example: 1
         FirstName:
           type: string
-          example: George
+          example: William
         LastName:
           type: string
           example: Doe
@@ -164,7 +194,7 @@ components:
           example: 53130
         email:
           type: string
-          example: george@noname.com
+          example: will@noname.com
         birthDate:
           type: string
           example: 12/31/2019
@@ -184,4 +214,4 @@ components:
       properties:
         name:
           type: string
-          example: "Porgey"
+          example: "Bill Doe"
